@@ -29,7 +29,7 @@ const XXAppFooter = memo(() => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                浙网文[2018]3506-263号
+                浙网文[2021] 1186-054号 
               </a>
             </span>
           </div>
