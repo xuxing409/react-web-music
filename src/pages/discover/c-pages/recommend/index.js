@@ -1,11 +1,34 @@
 import React, { memo, useEffect } from "react";
 
 import XXTopBanner from "./c-cpns/top-banner";
-import { RecommendWrapper } from "./style";
+import XXHotRecommend from "./c-cpns/hot-recommend";
+import XXHotAlbum from "./c-cpns/new-album";
+import XXRanking from "./c-cpns/recommend-ranking";
+import {
+  RecommendWrapper,
+  Content,
+  RecommendLeft,
+  RecommendRight,
+} from "./style";
+import UserLogin from "./c-cpns/use-login";
+import SettleSinger from "./c-cpns/settle-singer";
+import HotAnchor from "./c-cpns/hot-anchor";
 const XXRecommend = memo((props) => {
   return (
     <RecommendWrapper>
       <XXTopBanner />
+      <Content className={"wrap-v2"}>
+        <RecommendLeft>
+          <XXHotRecommend />
+          <XXHotAlbum />
+          <XXRanking />
+        </RecommendLeft>
+        <RecommendRight>
+          <UserLogin />
+          <SettleSinger />
+          <HotAnchor />
+        </RecommendRight>
+      </Content>
     </RecommendWrapper>
   );
 });
