@@ -3,9 +3,12 @@ import { Provider } from "react-redux";
 import GetRoutes from "./router";
 import store from "./store";
 
+import { HashRouter as Router } from "react-router-dom";
+
 import XXAppHeader from "@/components/app-header";
 import XXAppFooter from "@/components/app-footer";
-import { HashRouter as Router } from "react-router-dom";
+import XXAppPlayerBar from "./pages/player/app-player-bar";
+
 
 const App = memo(() => {
   return (
@@ -14,6 +17,7 @@ const App = memo(() => {
         <XXAppHeader />
         <GetRoutes />
         <XXAppFooter />
+        <XXAppPlayerBar />
       </Router>
     </Provider>
   );

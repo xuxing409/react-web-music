@@ -23,6 +23,7 @@ const index = memo(() => {
   useEffect(() => {
     dispatch(getNewAlbumAction(10));
   }, [dispatch]);
+  
   return (
     <AlbumWrapper>
       <XXThemeHeaderRMC title="新碟上架"></XXThemeHeaderRMC>
