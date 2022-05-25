@@ -2,22 +2,90 @@ import styled from "styled-components";
 
 export const AppPlayerBar = styled.div`
   position: fixed;
-  bottom: 0px;
+  bottom: -40px;
   left: 0px;
   right: 0px;
   background-position: 0px 0px;
   height: 53px;
   background-repeat: repeat-x;
-  .content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
+  .top {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
-    height: 47px;
+    top: -14px;
+    right: 15px;
+    width: 52px;
+    height: 67px;
+    background-position: 0 -380px;
+    .lock-icon {
+      width: 18px;
+      height: 18px;
+      margin: 6px 0 0 17px;
+      background-position: ${(props) => (props.isLock ? "-100px" : "-80px")} -380px;
+    }
+  }
+  .playbar {
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      height: 47px;
+    }
+  }
+  &.lock {
+    bottom: 0px;
+  }
+  &.unlock {
+    bottom: 0px;
+  }
+  &.unlock-enter,
+  &.unlock-appear {
+    bottom: -40px;
+  }
+
+  &.unlock-enter-active,
+  &.unlock-appear-active {
+    /* bottom: -40px; */
+    transform: translateY(-40px);
+    transition: transform 300ms;
+  }
+
+  &.unlock-enter-done,
+  &.unlock-appear-done {
+    bottom: 0px;
+  }
+
+  &.unlock-exit {
+    bottom: 0px;
+  }
+
+  &.unlock-exit-active {
+    transform: translateY(40px);
+    transition: transform 300ms;
+  }
+
+  &.unlock-exit-done {
+    bottom: -40px;
+  }
+
+  &.lock-enter,
+  &.lock-appear {
+    bottom: 0px;
+  }
+
+  &.lock-enter-active,
+  &.lock-appear-active {
+    /* bottom: -40px; */
+    transform: translateY(-40px);
+    transition: transform 300ms;
+  }
+
+  &.lock-enter-done,
+  &.lock-appear-done {
+    bottom: -40px;
   }
 `;
 
@@ -191,6 +259,16 @@ export const Operator = styled.div`
     }
     .loop:hover {
       background-position: -33px -344px;
+      background-position: ${(props) => {
+        switch (props.sequence) {
+          case 1:
+            return "-93px -248px";
+          case 2:
+            return "-93px -344px";
+          default:
+            return "-33px -344px";
+        }
+      }};
     }
     .playlist:hover {
       background-position: -42px -98px;

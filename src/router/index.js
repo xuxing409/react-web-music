@@ -10,6 +10,7 @@ import XXDJRadio from "@/pages/discover/c-pages/djradio";
 import XXRanking from "@/pages/discover/c-pages/ranking";
 import XXRecommend from "@/pages/discover/c-pages/recommend";
 import XXSongs from "@/pages/discover/c-pages/songs";
+import XXPlayer from "@/pages/player";
 
 function GetRoutes() {
   const elements = useRoutes([
@@ -51,6 +52,10 @@ function GetRoutes() {
           path: "/discover/songs",
           element: <XXSongs />,
         },
+        {
+          path: "/discover/player",
+          element: <XXPlayer />
+        }
       ],
     },
     {

@@ -7,11 +7,18 @@ import React, {
   useState,
 } from "react";
 
-import { Slider } from "antd";
+import { message, Slider } from "antd";
+import classnames from "classnames";
 import { AppPlayerBar, Control, PlayInfo, Operator } from "./style";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getSongDetailAction } from "../store/actionCreators";
+import {
+  changeCurrentIndexAndSongAction,
+  changePlaySequenceAction,
+  changeCurrentLyricIndexAction,
+} from "../store/actionCreators";
 import { getSizeImage, formatDate, getPlaySong } from "@/utils/format-utils";
+import { CSSTransition } from "react-transition-group";
+import { NavLink } from "react-router-dom";
 
 const XXAppPlayerBar = memo(() => {
   // props and state
@@ -19,22 +26,46 @@ const XXAppPlayerBar = memo(() => {
   const [progress, setProgress] = useState(0);
   const [isChanging, setIsChanging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  // const [lockMode, setLockMode] = useState("unlock");
+  const [isLock, setIsLock] = useState(false);
+  const [isShow, setIsShow] = useState(false);
+
   // redux-hook
   const dispatch = useDispatch();
-  const { currentSong } = useSelector(
+  const {
+    currentSong,
+    playList,
+    currentSongIndex,
+    sequence,
+    lyricList,
+    currentLyricIndex,
+  } = useSelector(
     (state) => ({
       currentSong: state.getIn(["player", "currentSong"]),
+      playList: state.getIn(["player", "playList"]),
+      currentSongIndex: state.getIn(["player", "currentSongIndex"]),
+      sequence: state.getIn(["player", "sequence"]),
+      lyricList: state.getIn(["player", "lyricList"]),
+      currentLyricIndex: state.getIn(["player", "currentLyricIndex"]),
     }),
     shallowEqual
   );
 
   // other hook
   const audioRef = useRef();
-  useEffect(() => {
-    dispatch(getSongDetailAction(167876));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getSongDetailAction(1480378513));
+  // }, [dispatch]);
   useEffect(() => {
     audioRef.current.src = getPlaySong(currentSong.id);
+    audioRef.current
+      .play()
+      .then((res) => {
+        setIsPlaying(true);
+      })
+      .catch((err) => {
+        setIsPlaying(false);
+      });
   }, [currentSong]);
 
   // other handle
@@ -44,15 +75,47 @@ const XXAppPlayerBar = memo(() => {
   const showDuration = formatDate(duration, "mm:ss");
   const showCurrentTime = formatDate(currentTime, "mm:ss");
 
-  // handle function
   const playMusic = () => {
     isPlaying ? audioRef.current.pause() : audioRef.current.play();
     setIsPlaying(!isPlaying);
   };
+
+  const changeMusic = (tag) => {
+    if (sequence === 2 || playList.length === 1) {
+      //单曲循环或播放列表只有一首
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+      return;
+    }
+    dispatch(changeCurrentIndexAndSongAction(tag));
+  };
+
   const timeUpdate = (e) => {
+    const currentTime = e.target.currentTime;
+    // 未拖拽进度条
     if (!isChanging) {
-      setCurrentTime(e.target.currentTime * 1000);
-      setProgress((currentTime / duration) * 100);
+      setCurrentTime(currentTime * 1000);
+      setProgress(((currentTime * 1000) / duration) * 100);
+    }
+    // 获取当前歌词
+    let i = 0;
+    for (; i < lyricList.length; i++) {
+      let lyricItem = lyricList[i];
+      console.log(currentTime * 1000, lyricItem.time);
+      if (currentTime * 1000 < lyricItem.time) {
+        break;
+      }
+    }
+    if (currentLyricIndex !== i - 1) {
+      dispatch(changeCurrentLyricIndexAction(i - 1));
+      const content = lyricList[i - 1] && lyricList[i - 1].content;
+      
+      message.open({
+        key: "lyric",
+        content: content,
+        duration: 0,
+        className: "lyric-class",
+      });
     }
   };
   const sliderChange = useCallback(
@@ -80,74 +143,144 @@ const XXAppPlayerBar = memo(() => {
   const sliderTipformat = useCallback(() => {
     return formatDate(currentTime, "mm:ss");
   }, [currentTime]);
-  const changeSequence = () => {};
+
+  const changeLockMode = useCallback(() => {
+    setIsLock(!isLock);
+    if (isLock) {
+      setIsShow(true);
+    }
+  }, [isLock]);
+
+  const handleMouseEnter = useCallback(
+    (e) => {
+      console.log("进入");
+      if (!isLock) {
+        setIsShow(true);
+      }
+    },
+    [isLock]
+  );
+  const handleMouseLeave = useCallback(
+    (e) => {
+      console.log("离开");
+      if (!isLock) {
+        setIsShow(false);
+      }
+    },
+    [isLock]
+  );
+  const changeSequence = () => {
+    let newSequence = sequence + 1;
+    if (newSequence > 2) {
+      newSequence = 0;
+    }
+    dispatch(changePlaySequenceAction(newSequence));
+  };
+  const handleMusicEnded = () => {
+    if (sequence === 2 || playList.length === 1) {
+      //单曲循环 或者列表只有一首
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    } else {
+      dispatch(changeCurrentIndexAndSongAction(1));
+    }
+  };
 
   return (
-    <AppPlayerBar className="sprite_player">
-      <div className="content wrap-v2">
-        <Control isPlaying={isPlaying}>
-          <button className="sprite_player prev"></button>
-          <button
-            className="sprite_player play"
-            onClick={(e) => playMusic()}
-          ></button>
-          <button className="sprite_player next"></button>
-        </Control>
-
-        <PlayInfo>
-          <div className="image">
-            <a href="/#">
-              <img src={getSizeImage(picUrl, 35)} alt=""></img>
-            </a>
+    <CSSTransition in={isShow} classNames={"unlock"} timeout={2000}>
+      <AppPlayerBar
+        className={classnames({
+          sprite_player: true,
+          lock: isLock,
+        })}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        isShow={isShow}
+        isLock={isLock}
+      >
+        <div className="playbar">
+          <div className="sprite_player top">
+            <div
+              className="sprite_player lock-icon"
+              onClick={changeLockMode}
+            ></div>
           </div>
-          <div className="info">
-            <div className="song">
-              <span className="song-name">{currentSong.name}</span>
-              <span className="singer-name">
-                {singers.map((item, index) => {
-                  return (
-                    <Fragment key={item.name + ""}>
-                      <a href={"/artist?id=" + item.id}>{item.name}</a>
-                      {singers.length !== index + 1 ? "/" : ""}
-                    </Fragment>
-                  );
-                })}
-              </span>
-            </div>
-            <div className="progress">
-              <Slider
-                defaultValue={30}
-                value={progress}
-                onChange={sliderChange}
-                onAfterChange={sliderAfterChange}
-                tipFormatter={sliderTipformat}
-              ></Slider>
-              <div className="time">
-                <span className="now-time">{showCurrentTime}</span>
-                <span className="divider">/</span>
-                <span className="total-time">{showDuration}</span>
+          <div className="content wrap-v2">
+            <Control isPlaying={isPlaying}>
+              <button
+                className="sprite_player prev"
+                onClick={(e) => changeMusic(-1)}
+              ></button>
+              <button
+                className="sprite_player play"
+                onClick={(e) => playMusic()}
+              ></button>
+              <button
+                className="sprite_player next"
+                onClick={(e) => changeMusic(1)}
+              ></button>
+            </Control>
+
+            <PlayInfo>
+              <div className="image">
+                <NavLink to="/discover/player">
+                  <img src={getSizeImage(picUrl, 35)} alt=""></img>
+                </NavLink>
               </div>
-            </div>
-          </div>
-        </PlayInfo>
+              <div className="info">
+                <div className="song">
+                  <span className="song-name">{currentSong.name}</span>
+                  <span className="singer-name">
+                    {singers.map((item, index) => {
+                      return (
+                        <Fragment key={item.name + ""}>
+                          <a href={"/artist?id=" + item.id}>{item.name}</a>
+                          {singers.length !== index + 1 ? "/" : ""}
+                        </Fragment>
+                      );
+                    })}
+                  </span>
+                </div>
+                <div className="progress">
+                  <Slider
+                    defaultValue={30}
+                    value={progress}
+                    onChange={sliderChange}
+                    onAfterChange={sliderAfterChange}
+                    tipFormatter={sliderTipformat}
+                  ></Slider>
+                  <div className="time">
+                    <span className="now-time">{showCurrentTime}</span>
+                    <span className="divider">/</span>
+                    <span className="total-time">{showDuration}</span>
+                  </div>
+                </div>
+              </div>
+            </PlayInfo>
 
-        <Operator>
-          <div className="left">
-            <button className="sprite_player btn favor"></button>
-            <button className="sprite_player btn share"></button>
+            <Operator sequence={sequence}>
+              <div className="left">
+                <button className="sprite_player btn favor"></button>
+                <button className="sprite_player btn share"></button>
+              </div>
+              <div className="right sprite_player">
+                <button className="sprite_player btn volume"></button>
+                <button
+                  className="sprite_player btn loop"
+                  onClick={(e) => changeSequence()}
+                ></button>
+                <button className="sprite_player btn playlist"></button>
+              </div>
+            </Operator>
           </div>
-          <div className="right sprite_player">
-            <button className="sprite_player btn volume"></button>
-            <button
-              className="sprite_player btn loop"
-              onClick={(e) => changeSequence()}
-            ></button>
-            <button className="sprite_player btn playlist"></button>
-          </div>
-        </Operator>
-      </div>
-      <audio ref={audioRef} onTimeUpdate={(e) => timeUpdate(e)} />
-    </AppPlayerBar>
+        </div>
+        <audio
+          ref={audioRef}
+          onTimeUpdate={(e) => timeUpdate(e)}
+          onEnded={(e) => handleMusicEnded()}
+        />
+      </AppPlayerBar>
+    </CSSTransition>
   );
 });
 
