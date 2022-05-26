@@ -1,16 +1,20 @@
-import XXDiscover from "@/pages/discover";
-import XXFriend from "@/pages/firend";
-import XXMine from "@/pages/mine";
+import React from "react";
 import { useEffect } from "react";
 
 import { useRoutes, useNavigate } from "react-router-dom";
-import XXAlbum from "@/pages/discover/c-pages/album";
-import XXArtist from "@/pages/discover/c-pages/artist";
-import XXDJRadio from "@/pages/discover/c-pages/djradio";
-import XXRanking from "@/pages/discover/c-pages/ranking";
-import XXRecommend from "@/pages/discover/c-pages/recommend";
-import XXSongs from "@/pages/discover/c-pages/songs";
-import XXPlayer from "@/pages/player";
+
+const XXDiscover = React.lazy((_) => import("@/pages/discover"));
+const XXFriend = React.lazy((_) => import("@/pages/firend"));
+const XXMine = React.lazy((_) => import("@/pages/mine"));
+const XXAlbum = React.lazy((_) => import("@/pages/discover/c-pages/album"));
+const XXArtist = React.lazy((_) => import("@/pages/discover/c-pages/artist"));
+const XXDJRadio = React.lazy((_) => import("@/pages/discover/c-pages/djradio"));
+const XXRanking = React.lazy((_) => import("@/pages/discover/c-pages/ranking"));
+const XXRecommend = React.lazy((_) =>
+  import("@/pages/discover/c-pages/recommend")
+);
+const XXSongs = React.lazy((_) => import("@/pages/discover/c-pages/songs"));
+const XXPlayer = React.lazy((_) => import("@/pages/player"));
 
 function GetRoutes() {
   const elements = useRoutes([
@@ -54,8 +58,8 @@ function GetRoutes() {
         },
         {
           path: "/discover/player",
-          element: <XXPlayer />
-        }
+          element: <XXPlayer />,
+        },
       ],
     },
     {
