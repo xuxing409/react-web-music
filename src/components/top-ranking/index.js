@@ -2,22 +2,21 @@ import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 
 import { getSizeImage } from "@/utils/format-utils";
-import { getSongDetailAction } from '@/pages/player/store';
+import { getSongDetailAction } from "@/pages/player/store";
 
 import { TopRankingWrapper } from "./style";
 
 export default memo(function XXTopRanking(props) {
   // props and state
   const { info } = props;
-  const { tracks = [] } = info;
-
+  const {tracks= []} = info
   // redux hooks
   const dispatch = useDispatch();
 
   // other handle
   const playMusic = (item) => {
     dispatch(getSongDetailAction(item.id));
-  }
+  };
 
   return (
     <TopRankingWrapper>
@@ -47,7 +46,7 @@ export default memo(function XXTopRanking(props) {
                   {/* onClick={(e) => playMusic(item)} */}
                   <button
                     className="btn sprite_02 play"
-                    onClick={(e) => playMusic(item)} 
+                    onClick={(e) => playMusic(item)}
                   ></button>
                   <button className="btn sprite_icon2 addto"></button>
                   <button className="btn sprite_02 favor"></button>

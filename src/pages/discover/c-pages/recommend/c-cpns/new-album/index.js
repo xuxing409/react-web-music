@@ -11,7 +11,7 @@ import { AlbumWrapper } from "./style";
 const index = memo(() => {
   // redux hooks
   const dispatch = useDispatch();
-  const { newAlbums } = useSelector(
+  const { newAlbums = [] } = useSelector(
     (state) => ({
       newAlbums: state.getIn(["recommend", "newAlbums"]),
     }),
@@ -23,7 +23,7 @@ const index = memo(() => {
   useEffect(() => {
     dispatch(getNewAlbumAction(10));
   }, [dispatch]);
-  
+
   return (
     <AlbumWrapper>
       <XXThemeHeaderRMC title="新碟上架"></XXThemeHeaderRMC>

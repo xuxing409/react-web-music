@@ -5,6 +5,8 @@ import {
   getHotRecommends,
   getNewAlbums,
   getTopList,
+  getArtistList,
+  getHotAnchor
 } from "@/services/recommend";
 
 // 处理state中的数据
@@ -13,21 +15,16 @@ const changeTopBannerAction = (res) => ({
   topBanners: res.banners,
 });
 
-
-
 const changeHotRecommendAction = (res) => ({
   type: actionTypes.CHANGE_HOT_RECOMMEND,
   hotRecommends: res.result,
 });
-
 
 // 处理state中的数据
 const changeNewAlbum = (res) => ({
   type: actionTypes.CHANGE_NEW_ALBUMS,
   newAlbums: res.albums,
 });
-
-
 
 const changeUpRankingAction = (res) => ({
   type: actionTypes.CHANGE_UP_RANKING,
@@ -42,6 +39,15 @@ const changeNewRankingAction = (res) => ({
 const changeOriginRankingAction = (res) => ({
   type: actionTypes.CHANGE_ORIGIN_RANKING,
   originRanking: res.playlist,
+});
+
+const changeArtistListAction = (res) => ({
+  type: actionTypes.CHANGE_SETTLE_SONGER,
+  settleSingers: res.artists,
+});
+const changeHotAnchorAction = (res) => ({
+  type: actionTypes.CHANGE_HOT_ANCHOR,
+  hotAnchor: res.djRadios,
 });
 
 // 发送网络请求，派发dispatch
@@ -73,13 +79,13 @@ export const getTopListAction = (idx) => {
   return (dispatch) => {
     getTopList(idx).then((res) => {
       switch (idx) {
-        case 0:
+        case 19723756:
           dispatch(changeUpRankingAction(res));
           break;
-        case 2:
+        case 3779629:
           dispatch(changeNewRankingAction(res));
           break;
-        case 3:
+        case 2884035:
           dispatch(changeOriginRankingAction(res));
           break;
         default:
@@ -87,4 +93,20 @@ export const getTopListAction = (idx) => {
       }
     });
   };
+};
+
+export const getArtistListAction = () => {
+  return (dispatch) => {
+    getArtistList().then((res) => {
+      dispatch(changeArtistListAction(res));
+    });
+  };
+};
+
+export const getHotAnchorAction = (limit) => {
+  return (dispatch)=> {
+    getHotAnchor(limit).then(res=> {
+      dispatch(changeHotAnchorAction(res))
+    })
+  }
 };

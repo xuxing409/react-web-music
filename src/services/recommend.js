@@ -17,18 +17,33 @@ export function getHotRecommends() {
 
 export function getNewAlbums(limit) {
   return request({
-    url: "/top/album",
+    url: "/album/newest",
     param: {
       limit,
     },
   });
 }
 
-export function getTopList(idx) {
+export function getTopList(id) {
   return request({
-    url: "/top/list",
+    url: "/playlist/detail",
     params: {
-      idx,
+      id,
+    },
+  });
+}
+
+export function getArtistList() {
+  return request({
+    url: "/artist/list",
+  });
+}
+
+export function getHotAnchor(limit) {
+  return request({
+    url: "/dj/hot",
+    params: {
+      limit,
     },
   });
 }
