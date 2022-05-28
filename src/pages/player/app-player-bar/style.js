@@ -8,6 +8,7 @@ export const AppPlayerBar = styled.div`
   background-position: 0px 0px;
   height: 53px;
   background-repeat: repeat-x;
+  transition: bottom 0.3s;
   .top {
     position: absolute;
     top: -14px;
@@ -34,58 +35,6 @@ export const AppPlayerBar = styled.div`
       bottom: 0;
       height: 47px;
     }
-  }
-  &.lock {
-    bottom: 0px;
-  }
-  &.unlock {
-    bottom: 0px;
-  }
-  &.unlock-enter,
-  &.unlock-appear {
-    bottom: -40px;
-  }
-
-  &.unlock-enter-active,
-  &.unlock-appear-active {
-    /* bottom: -40px; */
-    transform: translateY(-40px);
-    transition: transform 300ms;
-  }
-
-  &.unlock-enter-done,
-  &.unlock-appear-done {
-    bottom: 0px;
-  }
-
-  &.unlock-exit {
-    bottom: 0px;
-  }
-
-  &.unlock-exit-active {
-    transform: translateY(40px);
-    transition: transform 300ms;
-  }
-
-  &.unlock-exit-done {
-    bottom: -40px;
-  }
-
-  &.lock-enter,
-  &.lock-appear {
-    bottom: 0px;
-  }
-
-  &.lock-enter-active,
-  &.lock-appear-active {
-    /* bottom: -40px; */
-    transform: translateY(-40px);
-    transition: transform 300ms;
-  }
-
-  &.lock-enter-done,
-  &.lock-appear-done {
-    bottom: -40px;
   }
 `;
 
@@ -232,7 +181,48 @@ export const Operator = styled.div`
     width: 126px;
     padding-left: 13px;
     background-position: -147px -248px;
+    position: relative;
+    .volume_bar {
+      position: absolute;
+      top: -123px;
+      left: 9px;
+      clear: both;
+      height: 113px;
 
+      padding: 15px 0;
+
+      background-position: 0 -503px;
+      box-sizing: border-box;
+
+      display: ${(props) => {
+        return props.isShowVolume ? "block" : "none";
+      }};
+      .ant-slider {
+        margin-bottom: 10px;
+
+        .ant-slider-rail {
+          height: 9px;
+          background: url(${require("@/assets/img/playbar_sprite.png")}) 0px
+            bottom;
+        }
+
+        .ant-slider-track {
+          height: 9px;
+          background: url(${require("@/assets/img/playbar_sprite.png")}) -40px bottom;
+        }
+
+        .ant-slider-handle {
+          width: 22px;
+          height: 24px;
+          border: none;
+          margin-left: -9px;
+          background: url(${require("@/assets/img/sprite_icon.png")}) 0 -250px;
+        }
+        .ant-slider-handle:hover {
+          background-position: 0 -280px;
+        }
+      }
+    }
     .volume {
       background-position: -2px -248px;
     }

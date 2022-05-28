@@ -27,8 +27,8 @@ export const changePlaySequenceAction = (sequence) => ({
 
 export const changeCurrentLyricIndexAction = (index) => ({
   type: actionTypes.CHANGE_CURRENT_LYRIC_INDEX,
-  index
-})
+  index,
+});
 
 export const changeCurrentIndexAndSongAction = (tag) => {
   return (dispatch, getState) => {
@@ -52,6 +52,8 @@ export const changeCurrentIndexAndSongAction = (tag) => {
     const currentSong = playList[currentSongIndex];
     dispatch(changeCurrentSongAction(currentSong));
     dispatch(changeCurrentSongIndexAction(currentSongIndex));
+    // 请求歌词
+    dispatch(getLyricAction(currentSong.id));
   };
 };
 
@@ -91,6 +93,7 @@ export const getLyricAction = (id) => {
       const lyric = res.lrc.lyric;
       const lyricList = parseLyric(lyric);
 
+      console.log("获取歌词");
       dispatch(changeLyricListAction(lyricList));
     });
   };
