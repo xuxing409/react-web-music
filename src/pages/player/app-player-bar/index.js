@@ -27,10 +27,9 @@ const XXAppPlayerBar = memo(() => {
   const [isChanging, setIsChanging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLock, setIsLock] = useState(false);
-  // const [isShow, setIsShow] = useState(false);
   const [isShowVolume, setIsShowVolume] = useState(false);
   const [listening, setListening] = useState(false);
-  const [bottom, setBottom] = useState("-40");
+  const [bottom, setBottom] = useState("-47");
 
   // redux-hook
   const dispatch = useDispatch();
@@ -164,7 +163,7 @@ const XXAppPlayerBar = memo(() => {
       if (isLock) {
         setBottom("0");
       } else {
-        setBottom("-40");
+        setBottom("-47");
       }
     },
     [isLock]
@@ -206,6 +205,7 @@ const XXAppPlayerBar = memo(() => {
       onMouseLeave={handleMouseLeave}
       isLock={isLock}
     >
+      <div title="展开播放条" className="hand"></div>
       <div className="playbar" ref={playbarRef}>
         <div className="sprite_player top">
           <div

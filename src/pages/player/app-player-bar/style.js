@@ -2,28 +2,35 @@ import styled from "styled-components";
 
 export const AppPlayerBar = styled.div`
   position: fixed;
-  bottom: -40px;
+  bottom: -47px;
   left: 0px;
   right: 0px;
   background-position: 0px 0px;
   height: 53px;
   background-repeat: repeat-x;
   transition: bottom 0.3s;
-  .top {
+  .hand {
     position: absolute;
-    top: -14px;
-    right: 15px;
-    width: 52px;
-    height: 67px;
-    background-position: 0 -380px;
-    .lock-icon {
-      width: 18px;
-      height: 18px;
-      margin: 6px 0 0 17px;
-      background-position: ${(props) => (props.isLock ? "-100px" : "-80px")} -380px;
-    }
+    top: -10px;
+    width: 100%;
+    height: 20px;
+    cursor: pointer;
   }
   .playbar {
+    .top {
+      position: absolute;
+      top: -14px;
+      right: 15px;
+      width: 52px;
+      height: 67px;
+      background-position: 0 -380px;
+      .lock-icon {
+        width: 18px;
+        height: 18px;
+        margin: 6px 0 0 17px;
+        background-position: ${(props) => (props.isLock ? "-100px" : "-80px")} -380px;
+      }
+    }
     .content {
       display: flex;
       align-items: center;
