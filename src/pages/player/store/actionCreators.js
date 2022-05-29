@@ -20,6 +20,11 @@ const changeLyricListAction = (lyricList) => ({
   lyricList,
 });
 
+const changeShowPlayList = (showPlayList) => ({
+  type: actionTypes.CHANGE_SHOW_PLAYLIST,
+  showPlayList,
+});
+
 export const changePlaySequenceAction = (sequence) => ({
   type: actionTypes.CHANGE_SEQUENCE,
   sequence,
@@ -96,5 +101,11 @@ export const getLyricAction = (id) => {
       console.log("获取歌词");
       dispatch(changeLyricListAction(lyricList));
     });
+  };
+};
+
+export const getShowPlayListAction = (status) => {
+  return (dispatch) => {
+    dispatch(changeShowPlayList(status));
   };
 };

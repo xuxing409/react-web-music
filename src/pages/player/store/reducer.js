@@ -8,6 +8,7 @@ const defaultStore = Map({
   sequence: 0, // 0 循环 1 随机 2 单曲
   lyricList: [],
   currentLyricIndex: 0,
+  showPlayList: false
 });
 function reducer(state = defaultStore, action) {
   switch (action.type) {
@@ -23,6 +24,8 @@ function reducer(state = defaultStore, action) {
       return state.set("lyricList", action.lyricList);
     case actionTypes.CHANGE_CURRENT_LYRIC_INDEX:
       return state.set("currentLyricIndex", action.index);
+    case actionTypes.CHANGE_SHOW_PLAYLIST:
+      return state.set("showPlayList", action.showPlayList);
     default:
       return state;
   }

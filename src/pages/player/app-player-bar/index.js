@@ -15,10 +15,13 @@ import {
   changeCurrentIndexAndSongAction,
   changePlaySequenceAction,
   changeCurrentLyricIndexAction,
+  getSongDetailAction,
+  getShowPlayListAction,
 } from "../store/actionCreators";
 import { getSizeImage, formatDate, getPlaySong } from "@/utils/format-utils";
 import { NavLink } from "react-router-dom";
 import { useOnClickOutside } from "@/hook/useOnClickOutside";
+import AppPlayerPanel from "../app-player-panel";
 
 const XXAppPlayerBar = memo(() => {
   // props and state
@@ -40,6 +43,7 @@ const XXAppPlayerBar = memo(() => {
     sequence,
     lyricList,
     currentLyricIndex,
+    showPlayList,
   } = useSelector(
     (state) => ({
       currentSong: state.getIn(["player", "currentSong"]),
@@ -48,6 +52,7 @@ const XXAppPlayerBar = memo(() => {
       sequence: state.getIn(["player", "sequence"]),
       lyricList: state.getIn(["player", "lyricList"]),
       currentLyricIndex: state.getIn(["player", "currentLyricIndex"]),
+      showPlayList: state.getIn(["player", "showPlayList"]),
     }),
     shallowEqual
   );
@@ -56,7 +61,7 @@ const XXAppPlayerBar = memo(() => {
   const audioRef = useRef(null);
   const playbarRef = useRef(null);
   // useEffect(() => {
-  //   dispatch(getSongDetailAction(1480378513));
+  //   dispatch(getSongDetailAction(521416693));
   // }, [dispatch]);
   useEffect(() => {
     audioRef.current.src = getPlaySong(currentSong.id);
@@ -69,6 +74,12 @@ const XXAppPlayerBar = memo(() => {
         setIsPlaying(false);
       });
   }, [currentSong]);
+
+  useEffect(() => {
+    if (!showPlayList && !isLock) {
+      setBottom("-47");
+    }
+  }, [showPlayList, isLock]);
 
   useOnClickOutside(listening, setListening, playbarRef, setIsShowVolume);
 
@@ -160,13 +171,13 @@ const XXAppPlayerBar = memo(() => {
   }, []);
   const handleMouseLeave = useCallback(
     (e) => {
-      if (isLock) {
+      if (isLock || showPlayList) {
         setBottom("0");
       } else {
         setBottom("-47");
       }
     },
-    [isLock]
+    [isLock, showPlayList]
   );
   // 改变播放
   const changeSequence = () => {
@@ -192,10 +203,6 @@ const XXAppPlayerBar = memo(() => {
   }, []);
 
   return (
-    // <CSSTransition in={isShow} classNames={"unlock"} timeout={2000}>
-
-    // </CSSTransition>
-
     <AppPlayerBar
       className={classnames({
         sprite_player: true,
@@ -238,16 +245,18 @@ const XXAppPlayerBar = memo(() => {
             <div className="info">
               <div className="song">
                 <span className="song-name">{currentSong.name}</span>
-                <span className="singer-name">
-                  {singers.map((item, index) => {
-                    return (
-                      <Fragment key={item.name + ""}>
-                        <a href={"/artist?id=" + item.id}>{item.name}</a>
-                        {singers.length !== index + 1 ? "/" : ""}
-                      </Fragment>
-                    );
-                  })}
-                </span>
+                <div className="singer-name text-nowrap">
+                  <span>
+                    {singers.map((item, index) => {
+                      return (
+                        <Fragment key={item.name + ""}>
+                          <a href={"/artist?id=" + item.id}>{item.name}</a>
+                          {singers.length !== index + 1 ? "/" : ""}
+                        </Fragment>
+                      );
+                    })}
+                  </span>
+                </div>
               </div>
               <div className="progress">
                 <Slider
@@ -287,11 +296,17 @@ const XXAppPlayerBar = memo(() => {
                 className="sprite_player btn loop"
                 onClick={(e) => changeSequence()}
               ></button>
-              <button className="sprite_player btn playlist"></button>
+              <button
+                className="sprite_player btn playlist"
+                onClick={(e) => dispatch(getShowPlayListAction(!showPlayList))}
+              >
+                {playList.length}
+              </button>
             </div>
           </Operator>
         </div>
       </div>
+      {showPlayList && <AppPlayerPanel />}
       <audio
         ref={audioRef}
         onTimeUpdate={(e) => timeUpdate(e)}

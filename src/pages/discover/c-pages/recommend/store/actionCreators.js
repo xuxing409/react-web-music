@@ -6,7 +6,7 @@ import {
   getNewAlbums,
   getTopList,
   getArtistList,
-  getHotAnchor
+  getHotAnchor,
 } from "@/services/recommend";
 
 // 处理state中的数据
@@ -79,13 +79,14 @@ export const getTopListAction = (idx) => {
   return (dispatch) => {
     getTopList(idx).then((res) => {
       switch (idx) {
-        case 19723756:
-          dispatch(changeUpRankingAction(res));
-          break;
-        case 3779629:
+        case 2884035:
           dispatch(changeNewRankingAction(res));
           break;
-        case 2884035:
+        case 3779629:
+          dispatch(changeUpRankingAction(res));
+          break;
+
+        case 19723756:
           dispatch(changeOriginRankingAction(res));
           break;
         default:
@@ -104,9 +105,9 @@ export const getArtistListAction = () => {
 };
 
 export const getHotAnchorAction = (limit) => {
-  return (dispatch)=> {
-    getHotAnchor(limit).then(res=> {
-      dispatch(changeHotAnchorAction(res))
-    })
-  }
+  return (dispatch) => {
+    getHotAnchor(limit).then((res) => {
+      dispatch(changeHotAnchorAction(res));
+    });
+  };
 };

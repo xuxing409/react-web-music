@@ -121,7 +121,9 @@ body, textarea, select, input, button {
 .sprite_player {
   background: url(../img/playbar_sprite.png) no-repeat 0 9999px;
 }
-
+.sprite_playlist {
+  background: url(../img/playlist.png) no-repeat 0 9999px;
+}
 .lyric-class .ant-message-notice-content {
   position: fixed;
   left: 50%;
@@ -132,3 +134,28 @@ body, textarea, select, input, button {
 }
 
 
+.xui-scroll {
+  position: relative;
+  overflow: auto;
+  
+}
+.xui-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  
+}
+
+.xui-scroll::-webkit-scrollbar-thumb {
+
+  background-color: rgb(134, 134, 134);
+  border: 1px solid #a6a6a6;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%);
+  
+}
+
+.xui-scroll::-webkit-scrollbar-track {
+  background-color: #000;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 0%);
+}

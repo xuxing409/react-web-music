@@ -33,7 +33,7 @@ const index = memo(() => {
           onClick={(e) => pageRef.current.prev()}
         ></button>
         <div className="album">
-          <Carousel ref={pageRef}>
+          <Carousel ref={pageRef} dots={false}>
             {[0, 1].map((item) => {
               return (
                 <div key={item} className="page">

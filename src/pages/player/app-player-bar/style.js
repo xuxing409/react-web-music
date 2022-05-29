@@ -107,10 +107,12 @@ export const PlayInfo = styled.div`
       position: relative;
       top: 8px;
       left: 8px;
+      display: flex;
 
       .singer-name {
         color: #9b9b9b;
         margin-left: 10px;
+        max-width: 220px;
         a {
           color: #9b9b9b;
         }
@@ -160,10 +162,11 @@ export const PlayInfo = styled.div`
 `;
 
 export const Operator = styled.div`
-  display: flex;
   position: relative;
   top: 5px;
 
+  display: flex;
+  align-items: center;
   .btn {
     width: 25px;
     height: 25px;
@@ -183,12 +186,17 @@ export const Operator = styled.div`
   .share:hover {
     background-position: -114px -189px;
   }
-
+  .left {
+    display: flex;
+    align-items: center;
+  }
   .right {
     width: 126px;
     padding-left: 13px;
     background-position: -147px -248px;
     position: relative;
+    display: flex;
+    align-items: center;
     .volume_bar {
       position: absolute;
       top: -123px;
@@ -250,6 +258,15 @@ export const Operator = styled.div`
     .playlist {
       width: 59px;
       background-position: -42px -68px;
+
+      text-align: center;
+      color: #666;
+      line-height: 27px;
+      text-shadow: 0 1px 0 #080707;
+      text-indent: 0;
+      text-decoration: none;
+
+      padding-left: 21px;
     }
     .volume:hover {
       background-position: -31px -248px;
