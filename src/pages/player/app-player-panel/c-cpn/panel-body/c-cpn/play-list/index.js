@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { getSongDetailAction } from "@/pages/player/store";
 import { PlayListWrapper, SongWrapper } from "./style";
@@ -23,6 +23,10 @@ const PlayList = memo(() => {
   const playMusic = (item) => {
     dispatch(getSongDetailAction(item.id));
   };
+  // 删除音乐
+  const deleteSong = useCallback((id) => {
+    
+  },[]);
   return (
     <PlayListWrapper className="xui-scroll">
       <ul className="song_list">
@@ -43,7 +47,12 @@ const PlayList = memo(() => {
                 <i className="sprite_playlist icon icon_add">收藏</i>
                 <i className="sprite_playlist icon icon_share">分享</i>
                 <i className="sprite_playlist icon icon_dl">下载</i>
-                <i className="sprite_playlist icon icon_del">删除</i>
+                <i
+                  className="sprite_playlist icon icon_del"
+                  onClick={deleteSong(song.id)}
+                >
+                  删除
+                </i>
               </div>
               <div className="singer text-nowrap">{song.ar[0].name}</div>
               <div className="duration">{handleDuration(song.dt)}</div>

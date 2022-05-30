@@ -6,7 +6,9 @@ export const PlayListWrapper = styled.div`
   height: 260px;
   width: 553px;
   overflow: auto;
-
+  z-index: 10;
+  background: url(${require("@/assets/img/playlist_bg.png")}) -1014px 0;
+  background-repeat: repeat-y;
   .song_list {
     overflow: hidden;
   }

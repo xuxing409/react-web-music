@@ -15,7 +15,6 @@ import {
   changeCurrentIndexAndSongAction,
   changePlaySequenceAction,
   changeCurrentLyricIndexAction,
-  getSongDetailAction,
   getShowPlayListAction,
 } from "../store/actionCreators";
 import { getSizeImage, formatDate, getPlaySong } from "@/utils/format-utils";
@@ -33,13 +32,14 @@ const XXAppPlayerBar = memo(() => {
   const [isShowVolume, setIsShowVolume] = useState(false);
   const [listening, setListening] = useState(false);
   const [bottom, setBottom] = useState("-47");
+  const [showLyric, setShowLyric] = useState(false);
+  const [volumn, setVolumn] = useState(100);
 
   // redux-hook
   const dispatch = useDispatch();
   const {
     currentSong,
     playList,
-    currentSongIndex,
     sequence,
     lyricList,
     currentLyricIndex,
@@ -74,12 +74,12 @@ const XXAppPlayerBar = memo(() => {
         setIsPlaying(false);
       });
   }, [currentSong]);
-
+  // 此处不希望依赖isLock，以解决当本就关闭playlist时，切换锁状态导致面板自动缩回。
   useEffect(() => {
     if (!showPlayList && !isLock) {
       setBottom("-47");
     }
-  }, [showPlayList, isLock]);
+  }, [showPlayList]);
 
   useOnClickOutside(listening, setListening, playbarRef, setIsShowVolume);
 
@@ -124,13 +124,16 @@ const XXAppPlayerBar = memo(() => {
       dispatch(changeCurrentLyricIndexAction(i - 1));
       const content = lyricList[i - 1] && lyricList[i - 1].content;
 
-      message.open({
-        key: "lyric",
-        content: content,
-        duration: 0,
-        className: "lyric-class",
-      });
+      showLyric && lyricMessage(content);
     }
+  };
+  const lyricMessage = (content) => {
+    message.open({
+      key: "lyric",
+      content: content,
+      duration: 0,
+      className: "lyric-class",
+    });
   };
   // 播放进度修改
   const sliderChange = useCallback(
@@ -199,8 +202,30 @@ const XXAppPlayerBar = memo(() => {
   };
   // 改变音量
   const volumeChange = useCallback((value) => {
-    audioRef.current.volume = value / 100;
+    const newVolumn = value;
+    audioRef.current.volume = newVolumn / 100;
+    setVolumn(newVolumn);
   }, []);
+
+  // 打开歌词
+  const changeShowLyric = () => {
+    if (showLyric) {
+      message.destroy();
+    } else {
+      const content = lyricList.length
+        ? lyricList[currentLyricIndex].content
+        : "";
+      lyricMessage(content);
+    }
+    setShowLyric(!showLyric);
+  };
+  const handleVolume = () => {
+    if (!isShowVolume) {
+      const Volumn = audioRef.current.volume * 100;
+      setVolumn(Volumn);
+    }
+    setIsShowVolume(!isShowVolume);
+  };
 
   return (
     <AppPlayerBar
@@ -212,7 +237,7 @@ const XXAppPlayerBar = memo(() => {
       onMouseLeave={handleMouseLeave}
       isLock={isLock}
     >
-      <div title="展开播放条" className="hand"></div>
+      <div title="展开播放条" className="hand" />
       <div className="playbar" ref={playbarRef}>
         <div className="sprite_player top">
           <div
@@ -275,7 +300,11 @@ const XXAppPlayerBar = memo(() => {
             </div>
           </PlayInfo>
 
-          <Operator sequence={sequence} isShowVolume={isShowVolume}>
+          <Operator
+            sequence={sequence}
+            isShowVolume={isShowVolume}
+            showLyric={showLyric}
+          >
             <div className="left">
               <button className="sprite_player btn favor"></button>
               <button className="sprite_player btn share"></button>
@@ -284,17 +313,23 @@ const XXAppPlayerBar = memo(() => {
               <div className="volume_bar sprite_player">
                 <Slider
                   vertical
-                  defaultValue={30}
+                  defaultValue={100}
+                  value={volumn}
                   onChange={volumeChange}
                 ></Slider>
               </div>
+
               <button
                 className="sprite_player btn volume"
-                onClick={(e) => setIsShowVolume(!isShowVolume)}
+                onClick={(e) => handleVolume()}
               ></button>
               <button
                 className="sprite_player btn loop"
                 onClick={(e) => changeSequence()}
+              ></button>
+              <button
+                className="sprite_lyric btn lyric"
+                onClick={(e) => changeShowLyric()}
               ></button>
               <button
                 className="sprite_player btn playlist"

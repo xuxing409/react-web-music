@@ -1,10 +1,12 @@
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import { shallowEqual, useSelector } from "react-redux";
 import { LyricPanelWrapper } from "./style";
 import { scrollTo } from "@/utils/ui-utils";
 
 const LyricPanel = memo(() => {
+  const [isFirstShow, setIsFirstShow] = useState(true); //是否第一次打开
+  // redux
   const { lyricList, currentLyricIndex } = useSelector(
     (state) => ({
       lyricList: state.getIn(["player", "lyricList"]),
@@ -18,8 +20,13 @@ const LyricPanel = memo(() => {
 
   useEffect(() => {
     if (currentLyricIndex > 0 && currentLyricIndex < 3) return;
-    scrollTo(lyricPanelRef.current, (currentLyricIndex - 3) * 32, 300);
-  }, [currentLyricIndex]);
+    if (isFirstShow) {
+      lyricPanelRef.current.scrollTop = (currentLyricIndex - 3) * 32;
+      setIsFirstShow(false);
+    } else {
+      scrollTo(lyricPanelRef.current, (currentLyricIndex - 3) * 32, 300);
+    }
+  }, [currentLyricIndex, isFirstShow]);
 
   return (
     <LyricPanelWrapper className="xui-scroll" ref={lyricPanelRef}>

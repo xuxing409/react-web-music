@@ -41,6 +41,7 @@ export const AppPlayerBar = styled.div`
       transform: translateX(-50%);
       bottom: 0;
       height: 47px;
+      z-index: 100;
     }
   }
 `;
@@ -170,6 +171,7 @@ export const Operator = styled.div`
   .btn {
     width: 25px;
     height: 25px;
+    margin-left: 3px;
     cursor: pointer;
   }
 
@@ -191,7 +193,7 @@ export const Operator = styled.div`
     align-items: center;
   }
   .right {
-    width: 126px;
+    /* width: 126px; */
     padding-left: 13px;
     background-position: -147px -248px;
     position: relative;
@@ -238,6 +240,14 @@ export const Operator = styled.div`
         }
       }
     }
+    .lyric {
+      background-position: ${(props) => {
+        return props.showLyric ? "-50px -10px" : "-10px -10px";
+      }};
+    }
+    /* .lyric:hover {
+      background-position: -50px -10px;
+    } */
     .volume {
       background-position: -2px -248px;
     }

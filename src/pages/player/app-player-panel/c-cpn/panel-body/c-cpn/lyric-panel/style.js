@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const LyricPanelWrapper = styled.div`
-  width: 420px;
+  width: 430px;
   height: 250px;
+  z-index: 4;
   p {
     display: flex;
     justify-content: center;

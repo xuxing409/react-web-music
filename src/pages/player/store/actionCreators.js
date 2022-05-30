@@ -98,7 +98,6 @@ export const getLyricAction = (id) => {
       const lyric = res.lrc.lyric;
       const lyricList = parseLyric(lyric);
 
-      console.log("获取歌词");
       dispatch(changeLyricListAction(lyricList));
     });
   };
