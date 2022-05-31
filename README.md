@@ -1,10 +1,13 @@
 # 仿网易云音乐网站
-![输入图片说明](public/image.png)
+
 ## 项目启动
 ```
 yarn install 
 yarn start
 ```
+## 项目说明
+![输入图片说明](public/image.png)
+
 ## 技术栈
 ### 前端
 React：用于构建用户界面的 MVVM 框架
