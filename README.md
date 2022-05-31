@@ -23,4 +23,4 @@ yarn start
 - `propType`: 校验props类型及默认值
 - `react-transition-group`: 添加过渡动画效果
 ### 后端
-https://binaryify.github.io/NeteaseCloudMusicApi
+https://binaryify.github.io/NeteaseCloudMusicApi `Version:4.5.14`
