@@ -7,7 +7,12 @@ yarn start
 ```
 ## 项目说明
 ![输入图片说明](public/image.png)
-
+### 搜索建议
+![输入图片说明](public/searchSuggetion.png)
+### 播放列表
+![输入图片说明](public/playList.png)
+### 歌曲详情
+![输入图片说明](public/song_detail.png)
 ## 技术栈
 ### 前端
 - `React`：用于构建用户界面的 MVVM 框架
