@@ -1,6 +1,11 @@
 import * as actionTypes from "./constants";
 
-import { getSongDetail, getLyric } from "@/services/player";
+import {
+  getSongDetail,
+  getLyric,
+  getSimiPlaylist,
+  getSimiSong,
+} from "@/services/player";
 import { getRandomNumber } from "../../../utils/math-utils";
 import { parseLyric } from "../../../utils/parse-lyric";
 const changeCurrentSongAction = (currentSong) => ({
@@ -23,6 +28,20 @@ const changeLyricListAction = (lyricList) => ({
 const changeShowPlayList = (showPlayList) => ({
   type: actionTypes.CHANGE_SHOW_PLAYLIST,
   showPlayList,
+});
+
+const changeSongInfo = (songInfo) => ({
+  type: actionTypes.CHANGE_SONG_INFO,
+  songInfo,
+});
+const changeSimiPlaylistAction = (res) => ({
+  type: actionTypes.CHANGE_SIMI_PLAYLIST,
+  simiPlaylist: res.playlists,
+});
+
+const changeSimiSongsAction = (res) => ({
+  type: actionTypes.CHANGE_SIMI_SONGS,
+  simiSongs: res.songs,
 });
 
 export const changePlaySequenceAction = (sequence) => ({
@@ -106,5 +125,66 @@ export const getLyricAction = (id) => {
 export const getShowPlayListAction = (status) => {
   return (dispatch) => {
     dispatch(changeShowPlayList(status));
+  };
+};
+
+export const getSongInfoAction = (id) => {
+  return (dispatch, getState) => {
+    // song: {}, lyricList: []
+    let newSongInfo;
+    const currentSong = getState().getIn(["player", "currentSong"]);
+    const playList = getState().getIn(["player", "playList"]);
+    const songIndex = playList.findIndex((song) => song.id === id);
+    // 1.首先判断是否当前正在播放的音乐，是就直接获取歌词以及信息
+
+    if (id === currentSong.id) {
+      const lyricList = getState().getIn(["player", "lyricList"]);
+      newSongInfo = { song: currentSong, lyricList };
+      dispatch(changeSongInfo(newSongInfo));
+    } // 2.不存在则判断playlist中是否存在，存在则从列表中获取信息，再请求歌词
+    else if (id !== currentSong.id && songIndex !== -1) {
+      getLyric(id).then((res) => {
+        const lyric = res.lrc.lyric;
+        const lyricList = parseLyric(lyric);
+
+        newSongInfo = { song: playList[songIndex], lyricList };
+        dispatch(changeSongInfo(newSongInfo));
+      });
+    } // 3.都不存在则请求歌曲信息以及歌词
+    else {
+      // 请求歌曲数据
+      getSongDetail(id).then((res) => {
+        const song = res.songs && res.songs[0];
+        if (!song) return;
+
+        // 请求歌词
+
+        getLyric(id).then((res) => {
+          const lyric = res.lrc.lyric;
+          const lyricList = parseLyric(lyric);
+
+          newSongInfo = { song, lyricList };
+          dispatch(changeSongInfo(newSongInfo));
+        });
+      });
+    }
+  };
+};
+export const getSimiPlaylistAction = (id) => {
+  return (dispatch) => {
+    if (!id) return;
+
+    getSimiPlaylist(id).then((res) => {
+      dispatch(changeSimiPlaylistAction(res));
+    });
+  };
+};
+export const getSimiSongAction = (id) => {
+  return (dispatch) => {
+    if (!id) return;
+
+    getSimiSong(id).then((res) => {
+      dispatch(changeSimiSongsAction(res));
+    });
   };
 };

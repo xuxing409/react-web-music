@@ -79,15 +79,8 @@ export const HeaderRight = styled.div`
   font-size: 12px;
 
   .search {
-    width: 158px;
     height: 32px;
     border-radius: 16px;
-
-    input {
-      &::placeholder {
-        font-size: 12px;
-      }
-    }
   }
 
   .center {

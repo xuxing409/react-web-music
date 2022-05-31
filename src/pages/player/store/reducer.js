@@ -8,7 +8,11 @@ const defaultStore = Map({
   sequence: 0, // 0 循环 1 随机 2 单曲
   lyricList: [],
   currentLyricIndex: 0,
-  showPlayList: false
+  showPlayList: false,
+
+  songInfo: { song: {}, lyricList: [] },
+  simiPlaylist: [],
+  simiSongs: [],
 });
 function reducer(state = defaultStore, action) {
   switch (action.type) {
@@ -26,6 +30,12 @@ function reducer(state = defaultStore, action) {
       return state.set("currentLyricIndex", action.index);
     case actionTypes.CHANGE_SHOW_PLAYLIST:
       return state.set("showPlayList", action.showPlayList);
+    case actionTypes.CHANGE_SONG_INFO:
+      return state.set("songInfo", action.songInfo);
+    case actionTypes.CHANGE_SIMI_PLAYLIST:
+      return state.set("simiPlaylist", action.simiPlaylist);
+    case actionTypes.CHANGE_SIMI_SONGS:
+      return state.set("simiSongs", action.simiSongs);
     default:
       return state;
   }

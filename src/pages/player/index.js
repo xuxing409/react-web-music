@@ -1,22 +1,38 @@
-import React, { memo } from 'react'
-import { PlayerWrapper,PlayerLeft,PlayerRight } from './style'
+import React, { memo, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import PlayerInfo from "./c-cpn/player-info";
+import SimiPlaylist from "./c-cpn/simi_playlist";
+import SongContent from "./c-cpn/song-comments";
+import SongRelevant from "./c-cpn/song-relevant";
+import { getSongInfoAction } from "./store/actionCreators";
+import { PlayerWrapper, PlayerLeft, PlayerRight } from "./style";
 
 const XXPlayer = memo(() => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch();
+  const id = searchParams.get("id");
+  useEffect(() => {
+    dispatch(getSongInfoAction(id));
+  }, [dispatch, id]);
+
+  console.log(id);
+
   return (
     <PlayerWrapper>
-      <div className='content wrap-v2'>
+      <div className="content wrap-v2">
         <PlayerLeft>
-          <h2>XXPlayerInfo</h2>
-          <h2>XXSongContent</h2>
+          <PlayerInfo></PlayerInfo>
+          <SongContent></SongContent>
         </PlayerLeft>
         <PlayerRight>
-          <h2>XXSimiPlaylist</h2>
-          <h2>XXSongContent</h2>
-          <h2>DownLoad</h2>
+          <SimiPlaylist></SimiPlaylist>
+          <SongRelevant></SongRelevant>
+          {/* <h2>DownLoad</h2> */}
         </PlayerRight>
       </div>
     </PlayerWrapper>
-  ) 
-})
+  );
+});
 
-export default XXPlayer
+export default XXPlayer;

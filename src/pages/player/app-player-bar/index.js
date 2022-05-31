@@ -19,7 +19,7 @@ import {
 } from "../store/actionCreators";
 import { getSizeImage, formatDate, getPlaySong } from "@/utils/format-utils";
 import { NavLink } from "react-router-dom";
-import { useOnClickOutside } from "@/hook/useOnClickOutside";
+import { useOnClickOutside } from "@/hook/click-outside-hook";
 import AppPlayerPanel from "../app-player-panel";
 
 const XXAppPlayerBar = memo(() => {
@@ -263,13 +263,17 @@ const XXAppPlayerBar = memo(() => {
 
           <PlayInfo>
             <div className="image">
-              <NavLink to="/discover/player">
+              <NavLink to={`/discover/player?id=${currentSong.id}`}>
                 <img src={getSizeImage(picUrl, 35)} alt=""></img>
               </NavLink>
             </div>
             <div className="info">
               <div className="song">
-                <span className="song-name">{currentSong.name}</span>
+                <span className="song-name">
+                  <NavLink to={`/discover/player?id=${currentSong.id}`}>
+                    {currentSong.name}
+                  </NavLink>
+                </span>
                 <div className="singer-name text-nowrap">
                   <span>
                     {singers.map((item, index) => {

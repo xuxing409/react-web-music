@@ -109,6 +109,11 @@ export const PlayInfo = styled.div`
       top: 8px;
       left: 8px;
       display: flex;
+      .song-name {
+        a {
+          color: #e8e8e8;
+        }
+      }
 
       .singer-name {
         color: #9b9b9b;

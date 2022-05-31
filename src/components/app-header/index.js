@@ -3,9 +3,8 @@ import React, { memo } from "react";
 import { headerLinks } from "@/common/local-data";
 
 import { NavLink } from "react-router-dom";
-import { Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
 import { HeaderWrapper, HeaderLeft, HeaderRight } from "./style";
+import SearchSuggestions from "./c-cpn/search-suggestions";
 
 const XXAppHeader = memo(() => {
   const showSelectItem = (item, index) => {
@@ -40,11 +39,9 @@ const XXAppHeader = memo(() => {
         </HeaderLeft>
 
         <HeaderRight>
-          <Input
-            className="search"
-            placeholder="音乐/视频/电台/用户"
-            prefix={<SearchOutlined />}
-          />
+          <div className="search">
+            <SearchSuggestions />
+          </div>
           <div className="center">创作者中心</div>
           <div>登录</div>
         </HeaderRight>

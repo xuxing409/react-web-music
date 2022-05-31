@@ -8,3 +8,8 @@ export const CHANGE_LYRIC_LIST = "player/CHANGE_LYRIC_LIST";
 export const CHANGE_CURRENT_LYRIC_INDEX = "player/CHANGE_CURRENT_LYRIC_INDEX";
 
 export const CHANGE_SHOW_PLAYLIST = "player/CHANGE_SHOW_PLAYLIST";
+
+export const CHANGE_SONG_INFO = "player/CHANGE_SONG_INFO";
+
+export const CHANGE_SIMI_PLAYLIST = "player/CHANGE_SIMI_PLAYLIST";
+export const CHANGE_SIMI_SONGS = "player/CHANGE_SIMI_SONGS";
