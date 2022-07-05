@@ -1,5 +1,5 @@
 # 云音乐网站
-基于React v18 + React-router v6 + style_components 等技术仿网易云web端音乐项目
+基于React v18 + React-router v6 + style_components 等技术开发的web端音乐项目
 ## 项目启动
 ```
 yarn install 
