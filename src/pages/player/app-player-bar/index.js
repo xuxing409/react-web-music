@@ -350,7 +350,6 @@ const XXAppPlayerBar = memo(() => {
         ref={audioRef}
         onTimeUpdate={(e) => timeUpdate(e)}
         onEnded={(e) => handleMusicEnded()}
-        crossOrigin="anonymous"
       />
     </AppPlayerBar>
   );
