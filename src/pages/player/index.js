@@ -9,14 +9,12 @@ import { getSongInfoAction } from "./store/actionCreators";
 import { PlayerWrapper, PlayerLeft, PlayerRight } from "./style";
 
 const XXPlayer = memo(() => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const dispatch = useDispatch();
   const id = searchParams.get("id");
   useEffect(() => {
     dispatch(getSongInfoAction(id));
   }, [dispatch, id]);
-
-  console.log(id);
 
   return (
     <PlayerWrapper>
