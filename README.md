@@ -1,5 +1,7 @@
 # 云音乐网站
 基于React v18 + React-router v6 + style_components 等技术开发的web端音乐项目
+## 项目预览
+https://cloud-web-music.vercel.app/
 ## 项目启动
 ```
 yarn install 
@@ -19,8 +21,8 @@ yarn start
 - `styled-components`：^18.0.0
 - `axios`: "^0.27.0"
 - `react-router-dom`：^6.3.0
-- `redux`：React 集中状态管理，在多个组件共享某些状态时非常方便
-- `react-redux`：帮助我们链及redux、react的辅助工具
+- `redux`：^4.2.0
+- `react-redux`：^8.0.1
 - `immutable`：^4.0.0
 - `redux-immutable`: ^4.0.0
 - `redux-thunk`: ^2.4.1
