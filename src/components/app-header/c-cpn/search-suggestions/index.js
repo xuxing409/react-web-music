@@ -48,11 +48,7 @@ const renderTitle = (category) => {
     default:
       break;
   }
-  return (
-    <span key={category}>
-      {categoryTitle}
-    </span>
-  );
+  return <span key={category}>{categoryTitle}</span>;
 };
 
 // 渲染组项
@@ -103,7 +99,8 @@ const SearchSuggestions = memo(() => {
   const searchResult = async (query) => {
     let newOptions = [];
     const { result } = await getSearchSuggest(query);
-    newOptions = result.order.map((category, index) => {
+    const res = result.order || [];
+    newOptions = res.map((category, index) => {
       return {
         label: renderTitle(category),
         options: result[category].map((item, index) => {
@@ -114,7 +111,7 @@ const SearchSuggestions = memo(() => {
     return newOptions;
     // setOptions(newOptions);
   };
-
+  // 改变字符串触发
   const onSearch = useCallback(
     async (value) => {
       setValue(value);
@@ -122,31 +119,37 @@ const SearchSuggestions = memo(() => {
     },
     [setValue, setOptions]
   );
+  // url跳转处理
+  const handleUrl = useCallback(
+    ({ category, value }) => {
+      let url;
+      switch (category) {
+        case "songs": // 单曲
+          url = "/discover/player?id=" + value;
+          break;
+        case "artists": // 歌手
+          url = "/discover/song?id=" + value;
+          break;
+        case "albums": // 专辑
+          url = "/discover/album?id=" + value;
+          break;
+        case "playlists": // 歌单
+          url = "/discover/songs?id=" + value;
+          break;
+        default:
+          break;
+      }
 
-  const handleUrl = ({ category, value }) => {
-    let url;
-    switch (category) {
-      case "songs": // 单曲
-        url = "/discover/player?id=" + value;
-        break;
-      case "artists": // 歌手
-        url = "/discover/song?id=" + value;
-        break;
-      case "albums": // 专辑
-        url = "/discover/album?id=" + value;
-        break;
-      case "playlists": // 歌单
-        url = "/discover/songs?id=" + value;
-        break;
-      default:
-        break;
-    }
-
-    navigate(url);
-  };
-  const onSelect = useCallback((value, option) => {
-    handleUrl(option);
-  }, []);
+      navigate(url);
+    },
+    [navigate]
+  );
+  const onSelect = useCallback(
+    (value, option) => {
+      handleUrl(option);
+    },
+    [handleUrl]
+  );
   const onChange = useCallback((value, option) => {}, []);
 
   return (

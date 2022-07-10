@@ -3,7 +3,7 @@
 
 // 本地
 const devBaseURL = "http://localhost:4000/";
-const proBaseURL = "http://localhost:4000/";
+const proBaseURL = "https://netease-cloud-music-api-beryl-zeta.vercel.app/";
 export const BASE_URL =
   process.env.NODE_ENV === "development" ? devBaseURL : proBaseURL;
 
