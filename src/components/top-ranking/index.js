@@ -9,7 +9,7 @@ import { TopRankingWrapper } from "./style";
 export default memo(function XXTopRanking(props) {
   // props and state
   const { info } = props;
-  const tracks = info.tracks ? info.tracks : [];
+  const tracks = info.hasOwnProperty("tracks") ? info.tracks : [];
   // redux hooks
   const dispatch = useDispatch();
 
