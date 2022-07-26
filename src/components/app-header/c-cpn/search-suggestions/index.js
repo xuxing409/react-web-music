@@ -113,9 +113,9 @@ const SearchSuggestions = memo(() => {
     return newOptions;
   };
 
-  const debounceValue = useDebounce(value, 500);
+  const debounceValue = useDebounce(value, 300);
   // 改变字符串触发
-  const onSearch = useCallback(async (value) => {
+  const onSearch = useCallback((value) => {
     setValue(value);
   }, []);
 
@@ -158,7 +158,6 @@ const SearchSuggestions = memo(() => {
     },
     [handleUrl]
   );
-  const onChange = useCallback((value, option) => {}, []);
 
   return (
     <SearchSuggestionsWrapper>
@@ -170,7 +169,6 @@ const SearchSuggestions = memo(() => {
         }}
         onSearch={onSearch}
         onSelect={onSelect}
-        onChange={onChange}
         options={options}
         value={value}
       >
