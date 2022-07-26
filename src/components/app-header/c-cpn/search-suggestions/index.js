@@ -1,10 +1,11 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { AutoComplete, Input } from "antd";
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getSearchSuggest } from "@/services/search";
 // import { searchResult } from "./search-result";
 import { SearchSuggestionsWrapper } from "./style";
+import { useDebounce } from "@/utils/common-utils";
 
 // 高亮渲染
 const renderName = (name, query) => {
@@ -90,12 +91,13 @@ const renderItem = (category, item, query) => {
 };
 
 const SearchSuggestions = memo(() => {
-  const [options, setOptions] = useState([]);
-  const [value, setValue] = useState("");
+  const [options, setOptions] = useState([]); // 建议项
+  const [value, setValue] = useState(""); // 搜索文本
 
   // other hook
   const navigate = useNavigate();
   // handle
+  // 处理搜索建议数据
   const searchResult = async (query) => {
     let newOptions = [];
     const { result } = await getSearchSuggest(query);
@@ -109,16 +111,22 @@ const SearchSuggestions = memo(() => {
       };
     });
     return newOptions;
-    // setOptions(newOptions);
   };
+
+  const debounceValue = useDebounce(value, 500);
   // 改变字符串触发
-  const onSearch = useCallback(
-    async (value) => {
-      setValue(value);
-      setOptions(value ? await searchResult(value) : []);
-    },
-    [setValue, setOptions]
-  );
+  const onSearch = useCallback(async (value) => {
+    setValue(value);
+  }, []);
+
+  useEffect(() => {
+    const getSearchResult = async () => {
+      // 设置建议项
+      setOptions(debounceValue ? await searchResult(debounceValue) : []);
+    };
+    getSearchResult();
+  }, [debounceValue]);
+
   // url跳转处理
   const handleUrl = useCallback(
     ({ category, value }) => {
