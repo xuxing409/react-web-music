@@ -18,7 +18,11 @@ const PlayerPanelBody = memo(() => {
     currentSong.al.picUrl + "?imageView&blur=40x20";
   return (
     <PlayerPanelBodyWrapper>
-      <img className="image" src={picUrl} alt="" />
+      <img
+        className="image"
+        src={picUrl.replace(/^(http:)/, "https:")}
+        alt=""
+      />
       <PlayList></PlayList>
       <div className="line"></div>
       <LyricPanel></LyricPanel>

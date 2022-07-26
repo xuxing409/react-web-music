@@ -264,7 +264,10 @@ const XXAppPlayerBar = memo(() => {
           <PlayInfo>
             <div className="image">
               <NavLink to={`/discover/player?id=${currentSong.id}`}>
-                <img src={getSizeImage(picUrl, 35)} alt=""></img>
+                <img
+                  src={getSizeImage(picUrl.replace(/^(http:)/, "https:"), 35)}
+                  alt=""
+                ></img>
               </NavLink>
             </div>
             <div className="info">

@@ -28,7 +28,9 @@ const XXTopBanner = memo(() => {
     setCurrentIndex(to);
   }, []);
 
-  const bgImage = topBanners[currentIndex]  && (topBanners[currentIndex].imageUrl+"?imageView&blur=40x20")
+  const bgImage =
+    topBanners[currentIndex] &&
+    topBanners[currentIndex].imageUrl + "?imageView&blur=40x20";
 
   return (
     <BannerWrapper bgImage={bgImage}>
@@ -46,7 +48,7 @@ const XXTopBanner = memo(() => {
                 <div className="banner-item" key={item.imageUrl}>
                   <img
                     className={"image"}
-                    src={item.imageUrl}
+                    src={item.imageUrl.replace(/^(http:)/, "https:")}
                     alt={item.title}
                   ></img>
                 </div>

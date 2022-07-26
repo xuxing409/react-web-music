@@ -24,7 +24,7 @@ const HotAnchor = memo(() => {
           return (
             <div className="item" key={item.picUrl}>
               <a href="/abc" className="image">
-                <img src={item.picUrl} alt="" />
+                <img src={item.picUrl.replace(/^(http:)/, "https:")} alt="" />
               </a>
               <div className="info">
                 <div className="name">{item.name}</div>

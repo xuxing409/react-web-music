@@ -24,12 +24,14 @@ const PlayerInfo = memo(() => {
   const album = song.al || "未知专辑";
   const lyricLine = isSpread ? lyricList.length : 13;
 
-
   return (
     <PlayerInfoWrapper className="clear_float">
       <PlayerInfoLeft className="clear_float">
         <div className="cover_wrap">
-          <img src={album.picUrl + "?param=130y130"} alt=""></img>
+          <img
+            src={album.picUrl.replace(/^(http:)/, "https:") + "?param=130y130"}
+            alt=""
+          ></img>
           <span className="sprite_covor mask"></span>
         </div>
         <div className="outchain">

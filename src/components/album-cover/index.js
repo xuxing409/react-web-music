@@ -10,7 +10,10 @@ const XXAlbumCover = memo((props) => {
   return (
     <AlbumWrapper width={width} size={size} bgp={bgp}>
       <div className="album-image">
-        <img src={getSizeImage(info.picUrl, size)} alt={info.name}></img>
+        <img
+          src={getSizeImage(info.picUrl.replace(/^(http:)/, "https:"), size)}
+          alt={info.name}
+        ></img>
         <a href="/todo" className="cover image-cover"></a>
       </div>
       <div className="album-info">
