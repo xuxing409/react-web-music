@@ -22,10 +22,7 @@ export default memo(function XXTopRanking(props) {
     <TopRankingWrapper>
       <div className="header">
         <div className="image">
-          <img
-            src={getSizeImage(info.coverImgUrl.replace(/^(http:)/, "https:"))}
-            alt=""
-          />
+          <img src={getSizeImage(info.coverImgUrl)} alt="" />
           <a href="/todo" className="image_cover">
             ranking
           </a>
