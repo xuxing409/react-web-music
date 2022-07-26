@@ -28,12 +28,17 @@ const XXSettleSinger = memo(() => {
               <a href="#/todo" className="info">
                 <img
                   className="img"
-                  src={getSizeImage(singer.picUrl, 62)}
+                  src={getSizeImage(
+                    singer.picUrl.replace(/^(http)/, "$1" + "s"),
+                    62
+                  )}
                   alt=""
                 ></img>
                 <div className="name">
                   <h4>{singer.name}</h4>
-                  <h5 className="nickname  text-nowrap">{singer.alias[0] || singer.name}</h5>
+                  <h5 className="nickname  text-nowrap">
+                    {singer.alias[0] || singer.name}
+                  </h5>
                 </div>
               </a>
             </li>
