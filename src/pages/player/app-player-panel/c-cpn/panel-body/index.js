@@ -20,7 +20,7 @@ const PlayerPanelBody = memo(() => {
     <PlayerPanelBodyWrapper>
       <img
         className="image"
-        src={picUrl.replace(/^(http:)/, "https:")}
+        src={picUrl}
         alt=""
       />
       <PlayList></PlayList>

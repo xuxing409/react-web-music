@@ -28,10 +28,14 @@ const PlayerInfo = memo(() => {
     <PlayerInfoWrapper className="clear_float">
       <PlayerInfoLeft className="clear_float">
         <div className="cover_wrap">
-          <img
-            src={album.picUrl.replace(/^(http:)/, "https:") + "?param=130y130"}
-            alt=""
-          ></img>
+          {album && (
+            <img
+              src={
+                album.picUrl + "?param=130y130"
+              }
+              alt=""
+            />
+          )}
           <span className="sprite_covor mask"></span>
         </div>
         <div className="outchain">

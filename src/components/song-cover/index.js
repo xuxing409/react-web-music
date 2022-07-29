@@ -7,7 +7,7 @@ const XXSongsCover = memo((props) => {
   return (
     <SongsCoverWrapper>
       <div className="cover-top">
-        <img src={getSizeImage(info.picUrl.replace(/^(http:)/, "https:"), 140)} alt={info.name}></img>
+        <img src={getSizeImage(info.picUrl, 140)} alt={info.name}></img>
         <div className="cover sprite_covor">
           <div className="info sprite_covor">
             <span>

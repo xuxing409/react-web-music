@@ -29,7 +29,7 @@ const XXSettleSinger = memo(() => {
                 <img
                   className="img"
                   src={getSizeImage(
-                    singer.picUrl.replace(/^(http:)/, "https:"),
+                    singer.picUrl,
                     62
                   )}
                   alt=""

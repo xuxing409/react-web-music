@@ -48,7 +48,7 @@ const XXTopBanner = memo(() => {
                 <div className="banner-item" key={item.imageUrl}>
                   <img
                     className={"image"}
-                    src={item.imageUrl.replace(/^(http:)/, "https:")}
+                    src={item.imageUrl}
                     alt={item.title}
                   ></img>
                 </div>
