@@ -28,9 +28,9 @@ const index = memo(() => {
     <RankingWrapper>
       <XXThemeHeaderRMC title="榜单"></XXThemeHeaderRMC>
       <div className="tops">
-        <XXTopRanking info={originRanking}></XXTopRanking>
-        <XXTopRanking info={upRanking}></XXTopRanking>
-        <XXTopRanking info={newRanking}></XXTopRanking>
+        {originRanking && <XXTopRanking info={originRanking}></XXTopRanking>}
+        {upRanking && <XXTopRanking info={upRanking}></XXTopRanking>}
+        {newRanking && <XXTopRanking info={newRanking}></XXTopRanking>}
       </div>
     </RankingWrapper>
   );
