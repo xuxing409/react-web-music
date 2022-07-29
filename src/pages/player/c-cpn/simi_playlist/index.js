@@ -34,7 +34,9 @@ export default memo(function SimiPlaylist() {
           return (
             <div className="song-item" key={item.id}>
               <a className="image" href="/#">
-                <img src={getSizeImage(item.coverImgUrl, 50)} alt="" />
+                {item.coverImgUrl && (
+                  <img src={getSizeImage(item.coverImgUrl, 50)} alt="" />
+                )}
               </a>
               <div className="info text-nowrap">
                 <a href="#/" className="name">
