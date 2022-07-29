@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const HeaderWrapper = styled.div`
-  height: 75px;
   background-color: #242424;
   font-size: 14px;
   color: #fff;
 
   .content {
     height: 70px;
+    background-color: #242424;
 
     display: flex;
     justify-content: space-between;
@@ -64,7 +64,7 @@ export const HeaderLeft = styled.div`
         display: inline-block;
         width: 12px;
         height: 7px;
-        bottom: -1px;
+        bottom: -2px;
         left: 50%;
         transform: translate(-50%, 0);
         background-position: -226px 0;

@@ -2,11 +2,12 @@ import React, { memo } from "react";
 
 import { headerLinks } from "@/common/local-data";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { HeaderWrapper, HeaderLeft, HeaderRight } from "./style";
 import SearchSuggestions from "./c-cpn/search-suggestions";
 
 const XXAppHeader = memo(() => {
+  const location = useLocation();
   const showSelectItem = (item, index) => {
     if (index < 3) {
       return (
@@ -46,7 +47,9 @@ const XXAppHeader = memo(() => {
           <div>登录</div>
         </HeaderRight>
       </div>
-      <div className="divider"></div>
+      {!location.pathname.includes("discover") && (
+        <div className="divider"></div>
+      )}
     </HeaderWrapper>
   );
 });
