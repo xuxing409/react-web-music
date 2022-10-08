@@ -10,7 +10,7 @@ const index = memo(() => {
   // state
 
   // redux hooks
-  const { hotRecommends } = useSelector(
+  const { hotRecommends = [] } = useSelector(
     (state) => ({
       hotRecommends: state.getIn(["recommend", "hotRecommends"]),
     }),

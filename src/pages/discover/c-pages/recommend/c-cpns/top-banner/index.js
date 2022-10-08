@@ -8,7 +8,7 @@ import { BannerWrapper, BannerLeft, BannerRight, BannerControl } from "./style";
 
 const XXTopBanner = memo(() => {
   // 组件和redux关联，获取数据和进行操作
-  const { topBanners } = useSelector(
+  const { topBanners = [] } = useSelector(
     (state) => ({
       // topBanners: state.get("recommend").get("topBanners"),
       topBanners: state.getIn(["recommend", "topBanners"]),
@@ -29,6 +29,7 @@ const XXTopBanner = memo(() => {
   }, []);
 
   const bgImage =
+    topBanners &&
     topBanners[currentIndex] &&
     topBanners[currentIndex].imageUrl + "?imageView&blur=40x20";
 
